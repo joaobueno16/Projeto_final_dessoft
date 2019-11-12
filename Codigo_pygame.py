@@ -12,7 +12,7 @@ from os import path
 
 
 #diretorios de imagem e som
-img_dir = path.join(path.dirname(__file__), 'sprites')
+img_dir = path.join(path.dirname(__file__), 'img_dir')
 
 #Dados gerais do jogo.
 WIDTH = 440 # Largura da tela
@@ -25,8 +25,6 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
-
-
 
 
 class Player(pygame.sprite.Sprite):
