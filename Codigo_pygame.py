@@ -39,12 +39,13 @@ class Player(pygame.sprite.Sprite):
         player_img = pygame.image.load(path.join(img_dir, "Player.png")).convert()  
         
         self.image = player_img
+        #self.image.set_colorkey(BLACK)
 
         #Diminuindo o tamanho da imagem 
         self.image = pygame.transform.scale(player_img, (1333//25, 2400//25))
 
         #Deixando transparente   
-        self.image.set_colorkey(BLACK)
+        #self.image.set_colorkey(BLACK)
 
         #Detalhes do posicionamento   
         self.rect = self.image.get_rect()
@@ -55,17 +56,24 @@ class Player(pygame.sprite.Sprite):
 
         # Velocidade do carro
         self.speedx = 0
+        self.speedy = 0
         
 
     # Metodo que atualiza a posição do carro
     def update(self):
         self.rect.x += self.speedx
+        self.rect.y += self.speedy
         
         # Mantem dentro da tela
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
+        if self.rect.bottom > HEIGHT:
+            self.rect.bottom=HEIGHT
+        if self.rect.top < 0:
+            self.rect.top = 0
+        
 
 # Classe Mob que representa os meteoros
 class Mob(pygame.sprite.Sprite):
@@ -81,9 +89,13 @@ class Mob(pygame.sprite.Sprite):
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(mob_img, (1333//25, 2400//25))
+        #self.image.set_colorkey(BLACK)
+        self.rotate = pygame.transform.rotate(mob_img, -180)
         
+
+            
         # Deixando transparente.
-        self.image.set_colorkey(BLACK)
+        #self.image.set_colorkey(BLACK)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -93,12 +105,12 @@ class Mob(pygame.sprite.Sprite):
         # Sorteia um lugar inicial em y
         self.rect.y = -2
         # Sorteia uma velocidade inicial
-        self.speedx = 4
+        
         self.speedy = 5
         
     # Metodo que atualiza a posição da navinha
     def update(self):
-        self.rect.x += self.speedx
+       
         self.rect.y += self.speedy
         
         # Se o carro passar do final da tela, volta para cima
@@ -107,7 +119,33 @@ class Mob(pygame.sprite.Sprite):
             self.rect.y = random.randrange(-100, -40)
             self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(2, 9)
+            
+class Pista(pygame.sprite.Sprite): 
 
+   def __init__(self,x,y):
+
+       pygame.sprite.Sprite.__init__(self)
+       background = pygame.image.load(path.join(img_dir, 'pista.png')).convert()
+       self.image = pygame.transform.scale(background,(WIDTH,HEIGHT))
+       self.image.set_colorkey(BLACK)
+       self.rect = self.image.get_rect()
+
+       # posicao 
+       self.rect.x = x
+       self.rect.y = y
+
+       #velocidade
+       self.speedx = 0
+       self.speedy = 4 
+
+   def update(self):
+       self.rect.y += self.speedy
+       
+       
+       # Se a pista sair de cima da tela, volta para cima
+       if self.rect.y > HEIGHT:
+           self.rect.y=0-HEIGHT+4
+           
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
@@ -121,27 +159,54 @@ pygame.display.set_caption("Carros")
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
 
-# Carrega o fundo do jogo
-background = pygame.image.load(path.join(img_dir, 'pista.png')).convert()
-background_rect = background.get_rect()
+
+# Cria um grupo só da pista
+pista=pygame.sprite.Group()
+all_sprites = pygame.sprite.Group()
+
+pista1 = Pista(0,0)
+all_sprites.add(pista1)
+pista.add(pista1)
+
+# Carrega o  segundo fundo do jogo
+pista2 = Pista(0,0-HEIGHT)
+all_sprites.add(pista2)
+pista.add(pista2)
+
 
 # Cria uma nave. O construtor será chamado automaticamente.
 player = Player()
 
-# Cria um grupo de todos os sprites e adiciona a nave.
-all_sprites = pygame.sprite.Group()
+# Cria um grupo de todos os sprites e adiciona o player.
+class_player=pygame.sprite.Group()
+class_player.add(player)
 all_sprites.add(player)
 
-# Cria um grupo só dos meteoros
+# Carrega o fundo do jogo
+
+#background_rect=background.get_rect()
+
+
+
+# Cria um grupo só dos carros aleatorios
 mobs = pygame.sprite.Group()
 
-# Cria 8 meteoros e adiciona no grupo meteoros
+
+# Cria 8 carros aleatorios e adiciona no grupo carros aleatorios
 for i in range(4):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
+    
+    
+    
+
+
 
 # Comando para evitar travamentos.
+    
+    
+
 try:
     
     # Loop principal.
@@ -164,7 +229,11 @@ try:
                 if event.key == pygame.K_LEFT:
                     player.speedx = -8
                 if event.key == pygame.K_RIGHT:
-                    player.speedx = 8
+                    player.speedx = 8 
+                if event.key == pygame.K_UP:
+                    player.speedy = -8
+                if event.key == pygame.K_DOWN:
+                    player.speedy = 8
                     
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
@@ -173,6 +242,19 @@ try:
                     player.speedx = 0
                 if event.key == pygame.K_RIGHT:
                     player.speedx = 0
+                if event.key == pygame.K_UP:
+                    player.speedy = 0
+                if event.key == pygame.K_DOWN:
+                    player.speedy = 0
+
+        hit = pygame.sprite.groupcollide(mobs, class_player, False,False)
+        hit2 = pygame.sprite.groupcollide(mobs, mobs, False,False)
+        if len(hit)!= 0:
+            pygame.quit()
+        
+            
+
+
                     
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
@@ -180,7 +262,7 @@ try:
             
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
-        screen.blit(background, background_rect)
+        #screen.blit(background, background_rect)
         all_sprites.draw(screen)
         
         # Depois de desenhar tudo, inverte o display.
