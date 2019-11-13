@@ -112,9 +112,9 @@ class Mob(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         
         # Se o carro passar do final da tela, volta para cima
-        if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
-            self.rect.x = random.randrange(WIDTH - self.rect.width)
-            self.rect.y = random.randrange(-100, -40)
+        if self.rect.top > HEIGHT + 10:
+            self.rect.x = random.randrange(30 ,WIDTH-30)
+            self.rect.y = random.randrange(-150, -30)
             self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(2, 9)
             
@@ -191,10 +191,13 @@ mobs = pygame.sprite.Group()
 
 
 # Cria 8 carros aleatorios e adiciona no grupo carros aleatorios
-for i in range(4):
-    m = Mob()
-    all_sprites.add(m)
-    mobs.add(m)
+for i in range(10):
+    hit2 = pygame.sprite.groupcollide(mobs, mobs, False,False)
+    if len(hit2)<3:
+        
+        m = Mob()
+        all_sprites.add(m)
+        mobs.add(m)
     
     
     
@@ -249,6 +252,7 @@ try:
         hit2 = pygame.sprite.groupcollide(mobs, mobs, False,False)
         if len(hit)!= 0:
             pygame.quit()
+    
         
             
 
