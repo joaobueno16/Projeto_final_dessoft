@@ -104,7 +104,7 @@ class Mob(pygame.sprite.Sprite):
         self.rect.y = -2
         # Sorteia uma velocidade inicial
         
-        self.speedy = 5
+        self.speedy = 6
         
     # Metodo que atualiza a posição da navinha
     def update(self):
@@ -113,9 +113,8 @@ class Mob(pygame.sprite.Sprite):
         
         # Se o carro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10:
-            self.rect.x = random.randrange(30 ,WIDTH-30)
+            self.rect.x = random.randrange(50 ,WIDTH-50)
             self.rect.y = random.randrange(-150, -30)
-            self.speedx = random.randrange(-3, 3)
             self.speedy = random.randrange(2, 9)
             
 class Pista(pygame.sprite.Sprite): 
@@ -134,7 +133,7 @@ class Pista(pygame.sprite.Sprite):
 
        #velocidade
        self.speedx = 0
-       self.speedy = 4 
+       self.speedy = 11 
 
    def update(self):
        self.rect.y += self.speedy
@@ -142,7 +141,7 @@ class Pista(pygame.sprite.Sprite):
        
        # Se a pista sair de cima da tela, volta para cima
        if self.rect.y > HEIGHT:
-           self.rect.y=0-HEIGHT+4
+           self.rect.y=0-HEIGHT+11
            
 # Inicialização do Pygame.
 pygame.init()
