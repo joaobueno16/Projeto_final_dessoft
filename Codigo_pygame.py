@@ -13,6 +13,7 @@ from os import path
 
 #diretorios de imagem e som
 img_dir = path.join(path.dirname(__file__), 'img_dir')
+snd_dir = path.join(path.dirname(__file__), 'snd_dir')
 
 #Dados gerais do jogo.
 WIDTH = 440 # Largura da tela
@@ -25,6 +26,8 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
+
+pos_car_ini = [70, 190, 350]
 
 
 class Player(pygame.sprite.Sprite):
@@ -99,9 +102,9 @@ class Mob(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
        
         # Sorteia um lugar inicial em x
-        self.rect.x = -10
+        self.rect.x = pos_car_ini[random.randint(0,2)]
         # Sorteia um lugar inicial em y
-        self.rect.y = -2
+        self.rect.y = random.randrange(-150, -30)
         # Sorteia uma velocidade inicial
         
         self.speedy = 6
@@ -113,9 +116,10 @@ class Mob(pygame.sprite.Sprite):
         
         # Se o carro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10:
-            self.rect.x = random.randrange(50 ,WIDTH-50)
+            self.rect.x = pos_car_ini[random.randint(0,2)]
             self.rect.y = random.randrange(-150, -30)
-            self.speedy = random.randrange(2, 9)
+            
+            #self.speedy = random.randrange(2, 9)
             
 class Pista(pygame.sprite.Sprite): 
 
@@ -142,10 +146,29 @@ class Pista(pygame.sprite.Sprite):
        # Se a pista sair de cima da tela, volta para cima
        if self.rect.y > HEIGHT:
            self.rect.y=0-HEIGHT+11
-           
+
+# Carrega todos os assets uma vez só.
+def load_assets(img_dir, snd_dir):
+    assets = {}
+    assets["musica_jogo"] = pygame.mixer.Sound(path.join(snd_dir, 'pew.wav'))
+    return assets
+
+
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
+
+# Carrega todos os assets uma vez só e guarda em um dicionário
+assets = load_assets(img_dir, snd_dir)
+# Carrega os sons do jogo
+pygame.mixer.music.load(path.join(snd_dir, '8_Bit_Universe_-_ACDC_Back_In_Black_8_bit_(dj4u.io).mp3'))
+pygame.mixer.music.set_volume(0.4) 
+#music_sound = assets["musica_jogo"] 
+
+# Loop principal.
+pygame.mixer.music.play(loops=-1)
+
+
 
 # Tamanho da tela.
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -183,14 +206,12 @@ all_sprites.add(player)
 
 #background_rect=background.get_rect()
 
-
-
 # Cria um grupo só dos carros aleatorios
 mobs = pygame.sprite.Group()
 
 
 # Cria 8 carros aleatorios e adiciona no grupo carros aleatorios
-for i in range(10):
+for i in range(15):
     hit2 = pygame.sprite.groupcollide(mobs, mobs, False,False)
     if len(hit2)<3:
         
@@ -198,14 +219,7 @@ for i in range(10):
         all_sprites.add(m)
         mobs.add(m)
     
-    
-    
-
-
-
 # Comando para evitar travamentos.
-    
-    
 
 try:
     
@@ -252,11 +266,7 @@ try:
         if len(hit)!= 0:
             pygame.quit()
     
-        
-            
-
-
-                    
+                 
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
