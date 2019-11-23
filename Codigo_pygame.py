@@ -146,6 +146,24 @@ class Pista(pygame.sprite.Sprite):
        # Se a pista sair de cima da tela, volta para cima
        if self.rect.y > HEIGHT:
            self.rect.y=0-HEIGHT+11
+           
+class Telainicial(pygame.sprite.Sprite):
+
+   def __init__(self,x,y):
+       pygame.sprite.Sprite.__init__(self)
+       inicio_img = pygame.image.load(path.join(img_dir, "start.png")).convert()
+       self.image = pygame.transform.scale(inicio_img,(440,540))
+       self.image.set_colorkey(BLACK)
+       self.rect  = self.image.get_rect()
+
+       #posicao
+       self.rect.x = x 
+       self.rect.y = y
+
+       self.speedy = 0
+
+   def update(self):
+       self.speedy += 0
 
 # Carrega todos os assets uma vez só.
 def load_assets(img_dir, snd_dir):
@@ -226,59 +244,92 @@ try:
     # Loop principal.
     running = True
     while running:
+        #estados
+        
+        state = 2
         
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
         
-        # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get():
-            
-            # Verifica se foi fechado.
-            if event.type == pygame.QUIT:
-                running = False
-            
-            # Verifica se apertou alguma tecla.
-            if event.type == pygame.KEYDOWN:
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
-                    player.speedx = -8
-                if event.key == pygame.K_RIGHT:
-                    player.speedx = 8 
-                if event.key == pygame.K_UP:
-                    player.speedy = -8
-                if event.key == pygame.K_DOWN:
-                    player.speedy = 8
+        
+        telainicial = pygame.sprite.Group()
+        
+        
+        
+        if state == 2:
+                player.speedy = 0
+                player.speedx = 0
+                inicial = Telainicial(0,0)
+                telainicial = pygame.sprite.Group()
+                telainicial.add(inicial)
+                telainicial.draw(screen) 
+                telainicial.update()
+                pygame.display.flip()
+                m.speedy = 0
+        
+                # Processa os eventos (mouse, teclado, botão, etc).
+                for event in pygame.event.get():
                     
-            # Verifica se soltou alguma tecla.
-            if event.type == pygame.KEYUP:
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
-                    player.speedx = 0
-                if event.key == pygame.K_RIGHT:
-                    player.speedx = 0
-                if event.key == pygame.K_UP:
-                    player.speedy = 0
-                if event.key == pygame.K_DOWN:
-                    player.speedy = 0
-
-        hit = pygame.sprite.groupcollide(mobs, class_player, False,False)
-        hit2 = pygame.sprite.groupcollide(mobs, mobs, False,False)
-        if len(hit)!= 0:
-            pygame.quit()
-    
-                 
-        # Depois de processar os eventos.
-        # Atualiza a acao de cada sprite.
-        all_sprites.update()
-            
-        # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
-        #screen.blit(background, background_rect)
-        all_sprites.draw(screen)
-        
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
-        
+                    # Verifica se foi fechado.
+                    if event.type == pygame.QUIT:
+                        running = False
+                    # Verifica se apertou alguma tecla.
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_SPACE:   
+                            
+                            state = 1
+                            print('x')
+                            print(state)
+                            if state == 1:
+                                del telainicial
+                                
+                                # Processa os eventos (mouse, teclado, botão, etc).
+                                for event in pygame.event.get():
+                                    
+                                    # Verifica se foi fechado.
+                                    if event.type == pygame.QUIT:
+                                        running = False
+                                        # Dependendo da tecla, altera a velocidade.
+                                    if event.type == pygame.KEDOWN:
+                                        if event.key == pygame.K_LEFT:
+                                            player.speedx = -8
+                                        if event.key == pygame.K_RIGHT:
+                                            player.speedx = 8 
+                                        if event.key == pygame.K_UP:
+                                            player.speedy = -8
+                                        if event.key == pygame.K_DOWN:
+                                            player.speedy = 8
+                                            
+                                    # Verifica se soltou alguma tecla.
+                                    if event.type == pygame.KEYUP:
+                                        # Dependendo da tecla, altera a velocidade.
+                                        if event.key == pygame.K_LEFT:
+                                            player.speedx = 0
+                                        if event.key == pygame.K_RIGHT:
+                                            player.speedx = 0
+                                        if event.key == pygame.K_UP:
+                                            player.speedy = 0
+                                        if event.key == pygame.K_DOWN:
+                                            player.speedy = 0
+                        
+                                    hit = pygame.sprite.groupcollide(mobs, class_player, False,False)
+                                    hit2 = pygame.sprite.groupcollide(mobs, mobs, False,False)
+                                    if len(hit)!= 0:
+                                        pygame.quit()
+                                
+                                             
+                                    # Depois de processar os eventos.
+                                    # Atualiza a acao de cada sprite.
+                                    all_sprites.update()
+                                        
+                                    # A cada loop, redesenha o fundo e os sprites
+                                    screen.fill(BLACK)
+                                    #screen.blit(background, background_rect)
+                                    all_sprites.draw(screen)
+                                    
+                                    # Depois de desenhar tudo, inverte o display.
+                                    pygame.display.flip()
+                
 finally:
     pygame.quit()
 
