@@ -119,7 +119,45 @@ class Mob(pygame.sprite.Sprite):
     #def collide(self , groupcollide):
         
             
+class Mob2(pygame.sprite.Sprite):
+
+    # Construtor da classe.
+    def __init__(self):
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+
+        # Carregando a imagem de fundo.
+        mob_img = pygame.image.load(path.join(img_dir, "carro_azul.png")).convert()
+
+        # Diminuindo o tamanho da imagem.
+        self.image = pygame.transform.scale(mob_img, (1350 // 25, 2400 // 25))
+        #self.image.set_colorkey(WHITE)
+        self.rotate = pygame.transform.rotate(mob_img, -180)
+
+        # Deixando transparente.
+        self.image.set_colorkey(BLACK)
+
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+
+        # Sorteia um lugar inicial em x
+        self.rect.x = pos_car_ini[random.randint(0, 2)]
+        # Sorteia um lugar inicial em y
+        self.rect.y = random.randrange(-640, -70)
+        # Sorteia uma velocidade inicial
+
+        self.speedy = 15
+
+    # Metodo que atualiza a posição dos carros aleatorios
+    def update(self):
+        self.rect.y += self.speedy
+
+        # Se o carro passar do final da tela, volta para cima
+        if self.rect.top > HEIGHT + 10:
+            self.rect.x = pos_car_ini[random.randint(0, 2)]
+            self.rect.y = random.randrange(-150, -30)
             
+                    
         
 
 class Pista(pygame.sprite.Sprite):
@@ -164,6 +202,18 @@ class Telainicial(pygame.sprite.Sprite):
 
     def update(self):
         self.speedy += 0
+        
+class Game_over(pygame.sprite.Sprite):
+
+   def __init__(self, x, y):
+       pygame.sprite.Sprite.__init__(self)
+       game_over=pygame.image.load(path.join(img_dir, "game_over.png")).convert()
+       self.image = pygame.transform.scale(game_over,(440,540))
+
+       self.rect = self.image.get_rect()
+
+       self.rect.x = x 
+       self.rect.y = y   
 
 
 # Carrega todos os assets uma vez só.
@@ -229,6 +279,11 @@ for i in range(5):
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
+        
+for x in range(5):
+        m2 = Mob2()
+        all_sprites.add(m2)
+        mobs.add(m2)
 
 
 
@@ -266,6 +321,10 @@ try:
            novo_mob = Mob()        
            mobs.add(novo_mob)
            all_sprites.add(novo_mob)
+           
+           novo_mob2 = Mob2()        
+           mobs.add(novo_mob2)
+           all_sprites.add(novo_mob2)
                     
                     
                 
@@ -279,7 +338,7 @@ try:
 
             hit = pygame.sprite.groupcollide(mobs, class_player, False, False)
             if len(hit) != 0:
-                pygame.quit()
+                state = 3
 
             # Depois de processar os eventos.
             # Atualiza a acao de cada sprite.
@@ -321,6 +380,24 @@ try:
                         player.speedy = 0
                     if event.key == pygame.K_DOWN:
                         player.speedy = 0
+                        
+        if state == 3:
+            
+            final = Game_over(0, 0)
+            gameover = pygame.sprite.Group()
+            gameover.add(final)
+            gameover.draw(screen)
+            gameover.update()
+            pygame.display.flip()
+            
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT: 
+                    running = False
+                if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+                    if event.key == pygame.K_SPACE:
+                        pygame.quit()
+            
 
         if state == 2:
             for event in pygame.event.get():
