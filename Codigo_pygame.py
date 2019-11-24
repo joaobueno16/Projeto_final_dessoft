@@ -99,10 +99,10 @@ class Mob(pygame.sprite.Sprite):
         # Sorteia um lugar inicial em x
         self.rect.x = pos_car_ini[random.randint(0, 2)]
         # Sorteia um lugar inicial em y
-        self.rect.y = random.randrange(-150, -30)
+        self.rect.y = random.randrange(-150, -90)
         # Sorteia uma velocidade inicial
 
-        self.speedy = 6
+        self.speedy = 12
 
     # Metodo que atualiza a posição da navinha
     def update(self):
@@ -218,10 +218,10 @@ all_sprites.add(player)
 # Cria um grupo só dos carros aleatorios
 mobs = pygame.sprite.Group()
 
-# Cria 8 carros aleatorios e adiciona no grupo carros aleatorios
-for i in range(15):
+# Cria 15 carros aleatorios e adiciona no grupo carros aleatorios
+for i in range(4):
     hit2 = pygame.sprite.groupcollide(mobs, mobs, False, False)
-    if len(hit2) < 3:
+    if len(hit2) < 4:
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
