@@ -17,7 +17,7 @@ snd_dir = path.join(path.dirname(__file__), 'snd_dir')
 # Dados gerais do jogo.
 WIDTH = 440  # Largura da tela
 HEIGHT = 540  # Altura da tela
-FPS = 100  # Frames por segundo
+FPS = 30  # Frames por segundo
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -55,7 +55,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottom = HEIGHT - 40
 
         # Velocidade do carro
-        self.speedx = 0
+        self.speedx = 4
         self.speedy = 0
 
     # Metodo que atualiza a posição do carro
@@ -99,21 +99,12 @@ class Mob(pygame.sprite.Sprite):
         # Sorteia um lugar inicial em x
         self.rect.x = pos_car_ini[random.randint(0, 2)]
         # Sorteia um lugar inicial em y
-<<<<<<< HEAD
         self.rect.y = random.randrange(-640, -70)
         # Sorteia uma velocidade inicial
 
         self.speedy = 15
 
     # Metodo que atualiza a posição dos carros aleatorios
-=======
-        self.rect.y = random.randrange(-150, -90)
-        # Sorteia uma velocidade inicial
-
-        self.speedy = 12
-
-    # Metodo que atualiza a posição da navinha
->>>>>>> 00227315c61ec8e54be366a677cc5107df6333df
     def update(self):
         self.rect.y += self.speedy
 
@@ -121,7 +112,6 @@ class Mob(pygame.sprite.Sprite):
         if self.rect.top > HEIGHT + 10:
             self.rect.x = pos_car_ini[random.randint(0, 2)]
             self.rect.y = random.randrange(-150, -30)
-<<<<<<< HEAD
             
         
 
@@ -131,11 +121,6 @@ class Mob(pygame.sprite.Sprite):
             
             
         
-=======
-
-            # self.speedy = random.randrange(2, 9)
-
->>>>>>> 00227315c61ec8e54be366a677cc5107df6333df
 
 class Pista(pygame.sprite.Sprite):
 
@@ -152,22 +137,14 @@ class Pista(pygame.sprite.Sprite):
 
         # velocidade
         self.speedx = 0
-<<<<<<< HEAD
         self.speedy = 30
-=======
-        self.speedy = 11
->>>>>>> 00227315c61ec8e54be366a677cc5107df6333df
 
     def update(self):
         self.rect.y += self.speedy
 
         # Se a pista sair de cima da tela, volta para cima
         if self.rect.y > HEIGHT:
-<<<<<<< HEAD
             self.rect.y = 0 - HEIGHT + 30
-=======
-            self.rect.y = 0 - HEIGHT + 11
->>>>>>> 00227315c61ec8e54be366a677cc5107df6333df
 
 
 class Telainicial(pygame.sprite.Sprite):
@@ -247,20 +224,12 @@ all_sprites.add(player)
 # Cria um grupo só dos carros aleatorios
 mobs = pygame.sprite.Group()
 
-<<<<<<< HEAD
 # Cria 8 carros aleatorios e adiciona no grupo carros aleatorios
-for i in range(10):
-=======
-# Cria 15 carros aleatorios e adiciona no grupo carros aleatorios
-for i in range(4):
-    hit2 = pygame.sprite.groupcollide(mobs, mobs, False, False)
-    if len(hit2) < 4:
->>>>>>> 00227315c61ec8e54be366a677cc5107df6333df
+for i in range(5):
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
 
-<<<<<<< HEAD
 
 
 
@@ -269,11 +238,6 @@ for i in range(4):
 try:
     
     
-=======
-# Comando para evitar travamentos.
-
-try:
->>>>>>> 00227315c61ec8e54be366a677cc5107df6333df
 
     running = True
     state = 2
@@ -291,7 +255,6 @@ try:
     clock.tick(FPS)
 
     while running:
-<<<<<<< HEAD
         for amob in mobs:
                 mobs.remove(amob)
                 hit2=pygame.sprite.spritecollide(amob, mobs, False)
@@ -307,22 +270,14 @@ try:
                     
                 
                 
-=======
->>>>>>> 00227315c61ec8e54be366a677cc5107df6333df
 
         clock.tick(FPS)
 
         if state == 1:
-<<<<<<< HEAD
             
             
 
             hit = pygame.sprite.groupcollide(mobs, class_player, False, False)
-=======
-
-            hit = pygame.sprite.groupcollide(mobs, class_player, False, False)
-            hit2 = pygame.sprite.groupcollide(mobs, mobs, False, False)
->>>>>>> 00227315c61ec8e54be366a677cc5107df6333df
             if len(hit) != 0:
                 pygame.quit()
 
@@ -369,19 +324,11 @@ try:
 
         if state == 2:
             for event in pygame.event.get():
-<<<<<<< HEAD
                 if event.type == pygame.QUIT: 
                     running = False
-=======
-                if event.type == pygame.QUIT: running = False
->>>>>>> 00227315c61ec8e54be366a677cc5107df6333df
                 if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                     if event.key == pygame.K_SPACE:
                         state = 1
                         del telainicial
 finally:
-<<<<<<< HEAD
     pygame.quit()
-=======
-    pygame.quit()
->>>>>>> 00227315c61ec8e54be366a677cc5107df6333df
