@@ -5,6 +5,9 @@
 Created on Mon Nov  4 15:51:07 2019
 @author: joaoluizleaobueno
 """
+#Integrantes da equipe: João Luiz Bueno, Felipe Lacombe, Thiago Pegorer
+
+#Instruções: para começar o jogo você deverá selecionar a dificuldade no terminal de iniciação que quer jogar: facil, medio ou dificil.
 
 import pygame
 import random 
@@ -17,7 +20,7 @@ snd_dir = path.join(path.dirname(__file__), 'snd_dir')
 # Dados gerais do jogo.
 WIDTH = 440  # Largura da tela
 HEIGHT = 540  # Altura da tela
-FPS = 0  # Frames por segundo
+FPS = 20  # Frames por segundo
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -276,11 +279,11 @@ mobs = pygame.sprite.Group()
 
 # Cria 8 carros aleatorios e adiciona no grupo carros aleatorios
 
-dific=input(" qual a dificuldade desejada?: facil, medio ou dificil?")
+dific=input(" qual a dificuldade desejada?: facil(f), medio(m) ou dificil(d)?")
 
-if dific == 'facil':
-    d=1
-elif dific == 'medio':
+if dific == 'f':
+    d=3
+elif dific == '':
     d=3
 else:
     d=3
@@ -288,12 +291,12 @@ for i in range(d):
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
-if dific == 'facil':
+if dific == 'f':
     e=2
-elif dific == 'medio':
-    e=4
+elif dific == 'm':
+    e=3
 else:
-    e=5
+    e=3
 for x in range(e):
         m2 = Mob2()
         all_sprites.add(m2)
@@ -331,9 +334,9 @@ try:
                 if len(hit2)>0:
                     amob.kill()
                     
-        if dific == 'facil':
-            f=3
-        elif dific == 'medio':
+        if dific == 'f':
+            f=4
+        elif dific == 'm':
             f=6
         else:
             f=7
@@ -382,9 +385,9 @@ try:
                     # Dependendo da tecla, altera a velocidade.
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        player.speedx = -11
+                        player.speedx = -18
                     if event.key == pygame.K_RIGHT:
-                        player.speedx = 11
+                        player.speedx = 18
                     if event.key == pygame.K_UP:
                         player.speedy = -11
                     if event.key == pygame.K_DOWN:
