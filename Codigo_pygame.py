@@ -7,7 +7,7 @@ Created on Mon Nov  4 15:51:07 2019
 """
 
 import pygame
-import random
+import random 
 from os import path
 
 # diretorios de imagem e som
@@ -26,7 +26,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
-pos_car_ini = [70, 190, 350]
+pos_car_ini = [30, 190, 350]
 
 
 class Player(pygame.sprite.Sprite):
@@ -55,7 +55,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottom = HEIGHT - 40
 
         # Velocidade do carro
-        self.speedx = 4
+        self.speedx = 0
         self.speedy = 0
 
     # Metodo que atualiza a posição do carro
@@ -97,7 +97,7 @@ class Mob(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         # Sorteia um lugar inicial em x
-        self.rect.x = pos_car_ini[random.randint(0, 2)]
+        self.rect.x =random.randint(45,380) #pos_car_ini[random.randint(0, 2)]
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-640, -70)
         # Sorteia uma velocidade inicial
@@ -110,7 +110,7 @@ class Mob(pygame.sprite.Sprite):
 
         # Se o carro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10:
-            self.rect.x = pos_car_ini[random.randint(0, 2)]
+            self.rect.x =random.randint(45,380) #pos_car_ini[random.randint(0, 2)]
             self.rect.y = random.randrange(-150, -30)
             
         
@@ -141,7 +141,7 @@ class Mob2(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         # Sorteia um lugar inicial em x
-        self.rect.x = pos_car_ini[random.randint(0, 2)]
+        self.rect.x = pos_car_ini[random.randint(0, 2)]#random.randint(45,390)
         # Sorteia um lugar inicial em y
         self.rect.y = random.randrange(-640, -70)
         # Sorteia uma velocidade inicial
@@ -154,7 +154,7 @@ class Mob2(pygame.sprite.Sprite):
 
         # Se o carro passar do final da tela, volta para cima
         if self.rect.top > HEIGHT + 10:
-            self.rect.x = pos_car_ini[random.randint(0, 2)]
+            self.rect.x = pos_car_ini[random.randint(0, 2)]#random.randint(45,390)
             self.rect.y = random.randrange(-150, -30)
             
                     
@@ -275,12 +275,12 @@ all_sprites.add(player)
 mobs = pygame.sprite.Group()
 
 # Cria 8 carros aleatorios e adiciona no grupo carros aleatorios
-for i in range(5):
+for i in range(3):
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
         
-for x in range(5):
+for x in range(3):
         m2 = Mob2()
         all_sprites.add(m2)
         mobs.add(m2)
@@ -361,13 +361,13 @@ try:
                     # Dependendo da tecla, altera a velocidade.
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        player.speedx = -8
+                        player.speedx = -11
                     if event.key == pygame.K_RIGHT:
-                        player.speedx = 8
+                        player.speedx = 11
                     if event.key == pygame.K_UP:
-                        player.speedy = -8
+                        player.speedy = -11
                     if event.key == pygame.K_DOWN:
-                        player.speedy = 8
+                        player.speedy = 11
 
                 # Verifica se soltou alguma tecla.
                 if event.type == pygame.KEYUP:
