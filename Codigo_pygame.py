@@ -275,7 +275,7 @@ all_sprites.add(player)
 mobs = pygame.sprite.Group()
 
 # Cria 8 carros aleatorios e adiciona no grupo carros aleatorios
-for i in range(3):
+for i in range(1):
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
@@ -316,7 +316,7 @@ try:
                 mobs.add(amob)
                 if len(hit2)>0:
                     amob.kill()
-        if len(mobs)<6:
+        if len(mobs)<5:
 
            novo_mob = Mob()        
            mobs.add(novo_mob)
