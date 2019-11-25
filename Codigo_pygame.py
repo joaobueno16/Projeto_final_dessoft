@@ -275,12 +275,26 @@ all_sprites.add(player)
 mobs = pygame.sprite.Group()
 
 # Cria 8 carros aleatorios e adiciona no grupo carros aleatorios
-for i in range(1):
+
+dific=input(" qual a dificuldade desejada?: facil, medio ou dificil?")
+
+if dific == 'facil':
+    d=1
+elif dific == 'medio':
+    d=3
+else:
+    d=3
+for i in range(d):
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
-        
-for x in range(3):
+if dific == 'facil':
+    e=2
+elif dific == 'medio':
+    e=4
+else:
+    e=5
+for x in range(e):
         m2 = Mob2()
         all_sprites.add(m2)
         mobs.add(m2)
@@ -316,7 +330,14 @@ try:
                 mobs.add(amob)
                 if len(hit2)>0:
                     amob.kill()
-        if len(mobs)<5:
+                    
+        if dific == 'facil':
+            f=3
+        elif dific == 'medio':
+            f=6
+        else:
+            f=7
+        if len(mobs)<f:
 
            novo_mob = Mob()        
            mobs.add(novo_mob)
