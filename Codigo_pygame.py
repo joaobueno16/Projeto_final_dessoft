@@ -17,7 +17,7 @@ snd_dir = path.join(path.dirname(__file__), 'snd_dir')
 # Dados gerais do jogo.
 WIDTH = 440  # Largura da tela
 HEIGHT = 540  # Altura da tela
-FPS = 0  # Frames por segundo
+FPS = 30  # Frames por segundo
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
